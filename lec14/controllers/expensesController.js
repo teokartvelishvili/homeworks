@@ -1,4 +1,3 @@
-// controllers/expensesController.js
 const fs = require('fs');
 const filePath = './data/expenses.json';
 

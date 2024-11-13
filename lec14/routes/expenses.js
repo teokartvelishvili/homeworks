@@ -1,4 +1,3 @@
-// routes/expenses.js
 const express = require('express');
 const { getExpenses, createExpense, deleteExpense, updateExpense } = require('../controllers/expensesController');
 const router = express.Router();
