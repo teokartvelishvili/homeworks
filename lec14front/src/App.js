@@ -1,18 +1,17 @@
 import React from 'react';
-import HomePage from './components/HomePage';
-import AddExpenseForm from './components/AddExpenseForm';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import AdminPage from './pages/AdminPage'
 
 function App() {
-  const handleAddExpense = (newExpense) => {
-    // ახალი ხარჯის დამატება HomePage-ში
-    console.log('New expense added:', newExpense);
-  };
-
   return (
-    <div className="App">
-      <HomePage />
-      <AddExpenseForm onAdd={handleAddExpense} />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const ExpenseItem = ({ expense, onDelete, onEdit }) => {
+const ExpenseItem = ({ expense, onDelete, onEdit, isAdmin }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [amount, setAmount] = useState(expense.amount);
   const [description, setDescription] = useState(expense.description);
@@ -13,7 +13,7 @@ const ExpenseItem = ({ expense, onDelete, onEdit }) => {
 
   const handleDelete = () => {
     axios.delete(`http://localhost:3000/expenses/${expense.id}`, {
-      headers: { 'api-key': 'authorized-key' } // აქ დამატებულია სათაური API-კლავიშით
+      headers: { 'api-key': 'authorized-key' }
     })
     .then(() => {
       onDelete(expense.id);
@@ -69,30 +69,33 @@ const ExpenseItem = ({ expense, onDelete, onEdit }) => {
         )}
       </div>
 
-      <div className="flex space-x-3">
-        {isEditing ? (
-          <button
-            onClick={handleSave}
-            className="bg-green-500 text-white p-2 rounded-md text-sm w-20 transition-colors duration-200 hover:bg-green-600"
-          >
-            Save
-          </button>
-        ) : (
-          <button
-            onClick={handleEditToggle}
-            className="bg-yellow-500 text-white p-2 rounded-md text-sm w-20 transition-colors duration-200 hover:bg-yellow-600"
-          >
-            Edit
-          </button>
-        )}
+      {/* Edit and Delete buttons only visible in admin mode */}
+      {isAdmin && (
+        <div className="flex space-x-3">
+          {isEditing ? (
+            <button
+              onClick={handleSave}
+              className="bg-green-500 text-white p-2 rounded-md text-sm w-20 transition-colors duration-200 hover:bg-green-600"
+            >
+              Save
+            </button>
+          ) : (
+            <button
+              onClick={handleEditToggle}
+              className="bg-yellow-500 text-white p-2 rounded-md text-sm w-20 transition-colors duration-200 hover:bg-yellow-600"
+            >
+              Edit
+            </button>
+          )}
 
-        <button
-          onClick={handleDelete}
-          className="bg-red-500 text-white p-2 rounded-md text-sm w-20 transition-colors duration-200 hover:bg-red-600"
-        >
-          Delete
-        </button>
-      </div>
+          <button
+            onClick={handleDelete}
+            className="bg-red-500 text-white p-2 rounded-md text-sm w-20 transition-colors duration-200 hover:bg-red-600"
+          >
+            Delete
+          </button>
+        </div>
+      )}
     </li>
   );
 };
