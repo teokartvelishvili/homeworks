@@ -7,6 +7,12 @@ const ExpenseItem = ({ expense, onDelete, onEdit, isAdmin }) => {
   const [description, setDescription] = useState(expense.description);
   const [date, setDate] = useState(expense.date);
 
+  const getExpenseById = (id) => {
+    return axios.get(`http://localhost:3000/expenses/${id}`, {
+      headers: { 'api-key': 'authorized-key' }
+    });
+  };
+
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
@@ -15,23 +21,25 @@ const ExpenseItem = ({ expense, onDelete, onEdit, isAdmin }) => {
     axios.delete(`http://localhost:3000/expenses/${expense.id}`, {
       headers: { 'api-key': 'authorized-key' }
     })
-    .then(() => {
-      onDelete(expense.id);
-    })
-    .catch((err) => {
-      alert('Error deleting expense');
-    });
+      .then(() => {
+        onDelete(expense.id);
+      })
+      .catch(() => {
+        alert('Error deleting expense');
+      });
   };
 
   const handleSave = () => {
     const updatedExpense = { amount, description, date };
 
-    axios.put(`http://localhost:3000/expenses/${expense.id}`, updatedExpense)
+    axios.put(`http://localhost:3000/expenses/${expense.id}`, updatedExpense, {
+      headers: { 'api-key': 'authorized-key' }
+    })
       .then((response) => {
         onEdit(response.data.data);
         setIsEditing(false);
       })
-      .catch((err) => {
+      .catch(() => {
         alert('Error updating expense');
       });
   };
@@ -69,7 +77,6 @@ const ExpenseItem = ({ expense, onDelete, onEdit, isAdmin }) => {
         )}
       </div>
 
-      {/* Edit and Delete buttons only visible in admin mode */}
       {isAdmin && (
         <div className="flex space-x-3">
           {isEditing ? (
