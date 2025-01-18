@@ -49,7 +49,7 @@ const HomePage = () => {
           className="bg-blue-600 text-white py-1 px-3 rounded-md text-sm font-medium transition-colors duration-200 hover:bg-blue-700 disabled:bg-gray-300"
           disabled={page === 1}
         >
-          Previous
+          Previous 
         </button>
         <span className="text-gray-700 text-sm">Page {page} of {totalPages}</span>
         <button
